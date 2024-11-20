@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { GLOBAL_PREFIX, SWAGGER_PREFIX } from '@common/constants/global.prefix';
-import { swaggerConfig } from './config/docs/swagger/swagger.config';
 import { corsConfig, helmetConfig, loggerConfig, morganConfig, validationPipeConfig } from './config/initializer';
+import { swaggerConfig } from './config/docs/swagger/swagger.config';
+import { AppModule } from './app/app.module';
 
 async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create(AppModule);
