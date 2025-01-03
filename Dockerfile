@@ -1,5 +1,5 @@
-FROM node:18.17.1-alpine3.18 AS dev
-WORKDIR /usr/src/app
+FROM node:18.18.2-alpine as dev
+WORKDIR /app
 
 # Copy files
 COPY ./package.json .

@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm';
+import { LoggerService } from '@shared/utils/logger/logger.service';
+import { LoggerModule } from '@shared/utils/logger/logger.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module, OnModuleInit } from '@nestjs/common';
-import { LoggerService } from '@common/utils/logger/logger.service';
-import { LoggerModule } from '@common/utils/logger/logger.module';
 import * as path from 'path';
 import { entities } from './entities';
 

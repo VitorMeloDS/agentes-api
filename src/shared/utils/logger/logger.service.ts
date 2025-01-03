@@ -21,12 +21,14 @@ export class LoggerService implements LoggerServiceInterface {
 	public log(message: string, context: string) {
 		const record = context + LoggerService.space + message;
 		this.display(LoggerType.Log, message, context);
+		if (this.configService.get('APP_MODE').toLowerCase() !== 'prod') return;
 		this.logger.info.info(record);
 	}
 
 	public warn(message: string, context: string) {
 		const record = context + LoggerService.space + message;
 		this.display(LoggerType.Warn, message, context);
+		if (this.configService.get('APP_MODE').toLowerCase() !== 'prod') return;
 		this.logger.warn.warn(record);
 	}
 

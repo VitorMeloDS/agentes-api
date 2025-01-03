@@ -1,26 +1,48 @@
+import { Repository } from 'typeorm';
+import { genSaltSync, hashSync } from 'bcrypt';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
+import { UserEntity } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
-	constructor() {} // private readonly usersRepository: Repository<UsersEntity>, // @InjectRepository(UsersEntity)
+	private readonly salt: string = genSaltSync(Math.floor(Math.random() * 17));
 
-	async findAll(): Promise<any> {
-		return 'All users';
-	}
+	constructor(
+		@InjectRepository(UserEntity)
+		private readonly repository: Repository<UserEntity>,
+	) {}
 
 	async findOne(id: number): Promise<any> {
-		return 'User ' + id;
+		return this.repository.findOne({ where: { id } });
 	}
 
-	async create(data: any): Promise<any> {
-		return 'Create user ' + data;
+	async create(user: CreateUserDto): Promise<CreateUserDto> {
+		const password = hashSync(user.password, this.salt);
+
+		const userCreated = this.repository.create({ ...user, password });
+
+		const _user = await this.repository.save(userCreated);
+
+		delete _user.password;
+
+		return _user;
 	}
 
-	async update(data: any): Promise<any> {
-		return 'Update user ' + data;
+	async update(id: number, user: UpdateUserDto): Promise<any> {
+		const password = hashSync(user.password, this.salt);
+
+		const userUpdated = this.repository.create({ ...user, password });
+
+		await this.repository.update(id, userUpdated);
+
+		return await this.findOne(id);
 	}
 
 	async delete(id: number): Promise<any> {
-		return 'Delete user ' + id;
+		await this.repository.softDelete(id);
+		return 'Usuário excluído!';
 	}
 }

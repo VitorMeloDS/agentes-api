@@ -22,9 +22,9 @@ async function bootstrap(): Promise<void> {
 
 	corsConfig(app);
 
-	swaggerConfig(app);
-
 	app.setGlobalPrefix(GLOBAL_PREFIX);
+
+	swaggerConfig(app);
 
 	await app.listen(port, () => {
 		logger.log(`Swagger is created in listenner on: ${host}:${port}/${SWAGGER_PREFIX}`, contextName);

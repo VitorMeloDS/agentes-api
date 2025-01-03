@@ -4,7 +4,6 @@ services:
   postgres:
     image: postgres:15
     container_name: postgres
-    restart: always
     ports:
       - '${DB_PORT}:${DB_PORT}'
     environment:

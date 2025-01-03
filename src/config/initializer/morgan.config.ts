@@ -1,6 +1,6 @@
 import * as morgan from 'morgan';
+import { LoggerService } from '@shared/utils/logger/logger.service';
 import { INestApplication } from '@nestjs/common';
-import { LoggerService } from '@common/utils/logger/logger.service';
 
 export function morganConfig(app: INestApplication, logger: LoggerService): void {
 	const format = ':method :url :status - :response-time ms';

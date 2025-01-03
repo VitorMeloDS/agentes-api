@@ -1,7 +1,7 @@
 import { DatabaseProviderModule } from 'src/config/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
-import { LoggerModule } from './utils/logger/logger.module';
+import { LoggerModule } from '../shared/utils/logger/logger.module';
 
 @Module({
 	imports: [
