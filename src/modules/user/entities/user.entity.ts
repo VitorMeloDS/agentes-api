@@ -23,7 +23,7 @@ export class UserEntity {
 	@Column({ length: 2024 })
 	email: string;
 
-	@Column({ length: 2024, select: false })
+	@Column({ length: 2024 })
 	password: string;
 
 	@CreateDateColumn()
@@ -32,7 +32,7 @@ export class UserEntity {
 	@UpdateDateColumn()
 	updatedAt: Date;
 
-	@DeleteDateColumn()
+	@DeleteDateColumn({ select: false })
 	deletedAt: Date;
 
 	@BeforeInsert()

@@ -1,6 +1,6 @@
 import { Router } from '@shared/enums/routes.enum';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { ExistIdUserPipe } from './pipe/exist-id-user.pipe';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -9,12 +9,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 @Controller(Router.USER)
 export class UserController {
 	constructor(private readonly service: UsersService) {}
-
-	@Get(':id')
-	@ApiOperation({ summary: 'Consultar usuário.' })
-	async findOne(@Param('id', ParseIntPipe, ExistIdUserPipe) id: number): Promise<any> {
-		return this.service.findOne(id);
-	}
 
 	@Post()
 	@ApiBody({ type: CreateUserDto })

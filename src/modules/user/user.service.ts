@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { FindOptionsSelect, FindOptionsWhere, Repository } from 'typeorm';
 import { genSaltSync, hashSync } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
@@ -15,8 +15,8 @@ export class UsersService {
 		private readonly repository: Repository<UserEntity>,
 	) {}
 
-	async findOne(id: number): Promise<any> {
-		return this.repository.findOne({ where: { id } });
+	async findOne(where: FindOptionsWhere<UserEntity>, select: FindOptionsSelect<UserEntity> = {}): Promise<UserEntity> {
+		return this.repository.findOne({ where, select });
 	}
 
 	async create(user: CreateUserDto): Promise<CreateUserDto> {
@@ -31,18 +31,22 @@ export class UsersService {
 		return _user;
 	}
 
-	async update(id: number, user: UpdateUserDto): Promise<any> {
-		const password = hashSync(user.password, this.salt);
+	async update(id: number, _user: UpdateUserDto): Promise<any> {
+		const password = hashSync(_user.password, this.salt);
 
-		const userUpdated = this.repository.create({ ...user, password });
+		const userUpdated = this.repository.create({ ..._user, password });
 
 		await this.repository.update(id, userUpdated);
 
-		return await this.findOne(id);
+		const user = await this.findOne({ id });
+
+		delete _user.password;
+
+		return user;
 	}
 
 	async delete(id: number): Promise<any> {
 		await this.repository.softDelete(id);
-		return 'Usuário excluído!';
+		return { message: 'Usuário excluído!' };
 	}
 }
